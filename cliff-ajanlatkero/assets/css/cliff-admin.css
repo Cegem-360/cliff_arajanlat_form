@@ -1,0 +1,107 @@
+/* Cliff Admin Styles */
+
+/* Tabs */
+.cliff-tabs {
+    margin-bottom: 20px;
+}
+
+/* Content form */
+.cliff-content-form .form-table th {
+    width: 220px;
+}
+
+.cliff-content-form .large-text {
+    max-width: 600px;
+}
+
+/* Options repeater */
+.cliff-option-group {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cliff-option-group h2 {
+    margin-top: 25px;
+}
+
+.cliff-repeater-table {
+    max-width: 900px;
+}
+
+.cliff-repeater-table th,
+.cliff-repeater-table td {
+    padding: 8px 10px;
+    vertical-align: middle;
+}
+
+.cliff-drag-handle {
+    cursor: grab;
+    font-size: 16px;
+    color: #999;
+    text-align: center;
+    user-select: none;
+}
+
+.cliff-drag-handle:active {
+    cursor: grabbing;
+}
+
+.cliff-repeater-row {
+    transition: opacity 0.2s;
+}
+
+.cliff-repeater-row[draggable="true"] {
+    opacity: 0.4;
+}
+
+.cliff-img-field {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.cliff-img-field input {
+    flex: 1;
+}
+
+.cliff-remove-row {
+    color: #a00 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    padding: 2px 8px !important;
+}
+
+.cliff-remove-row:hover {
+    color: #dc3232 !important;
+    background: #fef1f1 !important;
+}
+
+.cliff-add-row {
+    margin-top: 5px;
+}
+
+/* Detail box in submissions */
+.cliff-detail-box {
+    padding: 15px;
+}
+
+.cliff-detail-table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.cliff-detail-table td {
+    padding: 4px 15px 4px 0;
+    vertical-align: top;
+}
+
+.cliff-detail-table td:first-child {
+    white-space: nowrap;
+    width: 180px;
+}
+
+/* Image preview in content page */
+.cliff-btn-clear {
+    color: #a00 !important;
+}

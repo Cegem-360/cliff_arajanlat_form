@@ -1,0 +1,1014 @@
+/* =============================================
+   Cliff Ajánlatkérő Wizard - CSS
+   ============================================= */
+
+:root {
+    --cliff-primary: #c8102e;
+    --cliff-primary-dark: #a00d24;
+    --cliff-dark: #1a1a1a;
+    --cliff-gray-900: #222;
+    --cliff-gray-700: #555;
+    --cliff-gray-500: #888;
+    --cliff-gray-300: #ccc;
+    --cliff-gray-200: #e5e5e5;
+    --cliff-gray-100: #f5f5f5;
+    --cliff-white: #fff;
+    --cliff-gold: #b8963e;
+    --cliff-success: #2ecc71;
+    --cliff-radius: 4px;
+    --cliff-radius-lg: 8px;
+    --cliff-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    --cliff-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --cliff-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --cliff-sidebar-width: 240px;
+    --cliff-font: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Reset within plugin scope */
+.cliff-wizard *,
+.cliff-wizard *::before,
+.cliff-wizard *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================================
+   Layout
+   ============================================= */
+
+.cliff-wizard {
+    display: flex;
+    min-height: 600px;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: var(--cliff-font);
+    color: var(--cliff-dark);
+    background: var(--cliff-white);
+    border-radius: var(--cliff-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--cliff-shadow);
+}
+
+/* =============================================
+   Sidebar
+   ============================================= */
+
+.cliff-sidebar {
+    width: var(--cliff-sidebar-width);
+    min-width: var(--cliff-sidebar-width);
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.cliff-logo {
+    padding: 0 24px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.cliff-logo img {
+    max-width: 140px;
+    height: auto;
+}
+
+.cliff-logo-text {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.cliff-steps-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cliff-nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    cursor: default;
+    opacity: 0.3;
+    transition: all var(--cliff-transition);
+    position: relative;
+    user-select: none;
+}
+
+.cliff-nav-item.is-active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cliff-nav-item.is-active .cliff-nav-number {
+    background: var(--cliff-primary);
+    color: var(--cliff-white);
+    border-color: var(--cliff-primary);
+}
+
+.cliff-nav-item.is-completed {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.cliff-nav-item.is-completed:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cliff-nav-item.is-completed .cliff-nav-number {
+    display: none;
+}
+
+.cliff-nav-item.is-completed .cliff-nav-check {
+    display: flex;
+}
+
+.cliff-nav-item.is-unlocked {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.cliff-nav-item.is-unlocked:hover {
+    opacity: 0.9;
+}
+
+.cliff-nav-number {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 12px;
+    transition: all var(--cliff-transition);
+}
+
+.cliff-nav-label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.cliff-nav-check {
+    display: none;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background: var(--cliff-success);
+    color: var(--cliff-white);
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-right: 12px;
+}
+
+/* =============================================
+   Content Area
+   ============================================= */
+
+.cliff-content {
+    flex: 1;
+    padding: 40px 50px;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.cliff-header {
+    margin-bottom: 10px;
+}
+
+.cliff-title {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--cliff-dark);
+    margin: 0;
+}
+
+.cliff-form {
+    flex: 1;
+}
+
+.cliff-footer {
+    margin-top: auto;
+    padding-top: 30px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--cliff-gray-500);
+}
+
+/* =============================================
+   Steps
+   ============================================= */
+
+.cliff-step {
+    display: none;
+    animation: cliffFadeIn 0.4s ease;
+}
+
+.cliff-step.is-active {
+    display: block;
+}
+
+@keyframes cliffFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cliff-step h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--cliff-dark);
+}
+
+.cliff-step-desc {
+    color: var(--cliff-gray-700);
+    margin-bottom: 28px;
+    font-size: 15px;
+}
+
+.cliff-step-intro {
+    margin-bottom: 30px;
+}
+
+.cliff-step-intro h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.cliff-step-intro p {
+    color: var(--cliff-gray-700);
+    line-height: 1.7;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* =============================================
+   Image Cards
+   ============================================= */
+
+.cliff-cards {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cliff-cards-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cliff-cards-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.cliff-card {
+    cursor: pointer;
+    display: block;
+}
+
+.cliff-card input[type="radio"],
+.cliff-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cliff-card-inner {
+    border: 2px solid var(--cliff-gray-200);
+    border-radius: var(--cliff-radius-lg);
+    overflow: hidden;
+    transition: all var(--cliff-transition);
+}
+
+.cliff-card:hover .cliff-card-inner {
+    border-color: var(--cliff-gray-300);
+    box-shadow: var(--cliff-shadow-hover);
+    transform: translateY(-3px);
+}
+
+.cliff-card input:checked ~ .cliff-card-inner {
+    border-color: var(--cliff-dark);
+    box-shadow: 0 0 0 1px var(--cliff-dark);
+}
+
+.cliff-card-img {
+    width: 100%;
+    height: 180px;
+    background-color: var(--cliff-gray-100);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cliff-card-img-tall {
+    height: 280px;
+}
+
+/* Overlay on selected cards with images */
+.cliff-card input:checked ~ .cliff-card-inner .cliff-card-img::after {
+    content: '\2713';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    animation: cliffPop 0.3s ease;
+}
+
+@keyframes cliffPop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.cliff-card-icon {
+    text-align: center;
+    padding: 20px;
+}
+
+.cliff-style-name {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cliff-gray-700);
+}
+
+/* Color icons for Színvilág without images */
+.cliff-color-vilagos {
+    background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliff-color-sotet {
+    background: linear-gradient(135deg, #333 0%, #111 100%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliff-color-sotet .cliff-style-name {
+    color: var(--cliff-gray-300);
+}
+
+.cliff-card-label {
+    display: block;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--cliff-white);
+    transition: all var(--cliff-transition);
+}
+
+.cliff-card input:checked ~ .cliff-card-inner .cliff-card-label {
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+}
+
+/* =============================================
+   Form Fields
+   ============================================= */
+
+.cliff-field-group {
+    margin-bottom: 24px;
+}
+
+.cliff-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--cliff-dark);
+}
+
+.cliff-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: 2px solid var(--cliff-gray-200);
+    border-radius: var(--cliff-radius);
+    outline: none;
+    transition: border-color var(--cliff-transition);
+    font-family: var(--cliff-font);
+    background: var(--cliff-white);
+    color: var(--cliff-dark);
+}
+
+.cliff-input:focus {
+    border-color: var(--cliff-dark);
+}
+
+.cliff-input.is-error {
+    border-color: var(--cliff-primary);
+}
+
+.cliff-error {
+    display: block;
+    color: var(--cliff-primary);
+    font-size: 13px;
+    margin-top: 6px;
+    min-height: 20px;
+}
+
+.cliff-note {
+    font-size: 14px;
+    color: var(--cliff-gray-500);
+    font-style: italic;
+}
+
+/* Fields row */
+.cliff-fields-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.cliff-field-half {
+    flex: 1;
+}
+
+.cliff-field-half .cliff-input {
+    max-width: 100%;
+}
+
+/* =============================================
+   Button Options (radio/checkbox groups)
+   ============================================= */
+
+.cliff-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cliff-btn-group-wide {
+    gap: 12px;
+}
+
+.cliff-btn-group-stack {
+    flex-direction: column;
+    max-width: 400px;
+}
+
+.cliff-btn-option {
+    cursor: pointer;
+    display: block;
+}
+
+.cliff-btn-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cliff-btn-option-label {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 2px solid var(--cliff-gray-200);
+    border-radius: var(--cliff-radius);
+    transition: all var(--cliff-transition);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.cliff-btn-option:hover .cliff-btn-option-label {
+    border-color: var(--cliff-gray-500);
+}
+
+.cliff-btn-option input:checked ~ .cliff-btn-option-label {
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+    border-color: var(--cliff-dark);
+}
+
+.cliff-btn-group-stack .cliff-btn-option-label {
+    display: block;
+    text-align: center;
+}
+
+/* =============================================
+   Appliance Groups
+   ============================================= */
+
+.cliff-appliance-group {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cliff-gray-200);
+}
+
+.cliff-appliance-group:last-of-type {
+    border-bottom: none;
+}
+
+.cliff-appliance-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--cliff-dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =============================================
+   File Upload
+   ============================================= */
+
+.cliff-upload-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.cliff-upload-group {
+    flex: 1;
+}
+
+.cliff-upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border: 2px dashed var(--cliff-gray-300);
+    border-radius: var(--cliff-radius);
+    cursor: pointer;
+    transition: all var(--cliff-transition);
+    background: var(--cliff-gray-100);
+}
+
+.cliff-upload-btn:hover {
+    border-color: var(--cliff-dark);
+    background: var(--cliff-white);
+}
+
+.cliff-upload-btn.has-file {
+    border-color: var(--cliff-success);
+    border-style: solid;
+    background: rgba(46, 204, 113, 0.05);
+}
+
+.cliff-upload-icon {
+    font-size: 20px;
+}
+
+.cliff-upload-text {
+    font-size: 14px;
+    color: var(--cliff-gray-700);
+}
+
+.cliff-file-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+/* =============================================
+   Checkboxes / Consent
+   ============================================= */
+
+.cliff-consent-group {
+    margin-bottom: 30px;
+}
+
+.cliff-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--cliff-gray-700);
+}
+
+.cliff-checkbox input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cliff-checkmark {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border: 2px solid var(--cliff-gray-300);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--cliff-transition);
+    margin-top: 1px;
+}
+
+.cliff-checkbox input:checked ~ .cliff-checkmark {
+    background: var(--cliff-dark);
+    border-color: var(--cliff-dark);
+}
+
+.cliff-checkbox input:checked ~ .cliff-checkmark::after {
+    content: '\2713';
+    color: var(--cliff-white);
+    font-size: 14px;
+}
+
+.cliff-checkbox a {
+    color: var(--cliff-dark);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* =============================================
+   Buttons
+   ============================================= */
+
+.cliff-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--cliff-radius);
+    cursor: pointer;
+    transition: all var(--cliff-transition);
+    font-family: var(--cliff-font);
+}
+
+.cliff-btn-next {
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+}
+
+.cliff-btn-next:hover {
+    background: var(--cliff-gray-900);
+    transform: translateY(-1px);
+    box-shadow: var(--cliff-shadow);
+}
+
+.cliff-btn-submit {
+    background: var(--cliff-primary);
+    color: var(--cliff-white);
+    width: 100%;
+    max-width: 400px;
+}
+
+.cliff-btn-submit:hover {
+    background: var(--cliff-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--cliff-shadow);
+}
+
+.cliff-btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cliff-btn-manual {
+    margin-top: 10px;
+}
+
+/* =============================================
+   Loading / Spinner
+   ============================================= */
+
+.cliff-loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 15px;
+    color: var(--cliff-gray-700);
+}
+
+.cliff-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--cliff-gray-300);
+    border-top-color: var(--cliff-dark);
+    border-radius: 50%;
+    animation: cliffSpin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes cliffSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   Thank You
+   ============================================= */
+
+.cliff-thanks {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.cliff-thanks-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--cliff-success);
+    color: var(--cliff-white);
+    font-size: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: cliffPop 0.5s ease;
+}
+
+.cliff-thanks h2 {
+    font-size: 28px;
+    margin-bottom: 16px;
+}
+
+.cliff-thanks p {
+    color: var(--cliff-gray-700);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 12px;
+}
+
+.cliff-thanks-contact {
+    margin: 30px 0;
+    padding: 24px;
+    background: var(--cliff-gray-100);
+    border-radius: var(--cliff-radius-lg);
+    display: inline-block;
+}
+
+.cliff-thanks-contact p {
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.cliff-thanks-cities {
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--cliff-gray-700);
+}
+
+/* =============================================
+   Step Layout with Hero Image
+   ============================================= */
+
+.cliff-step-layout {
+    display: block;
+}
+
+.cliff-step-layout.has-hero {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.cliff-step-layout.has-hero .cliff-step-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.cliff-step-hero {
+    width: 340px;
+    min-width: 340px;
+    border-radius: var(--cliff-radius-lg);
+    overflow: hidden;
+}
+
+.cliff-step-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--cliff-radius-lg);
+}
+
+/* =============================================
+   Mobile Responsive
+   ============================================= */
+
+/* Mobile menu toggle */
+.cliff-mobile-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+    .cliff-wizard {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .cliff-sidebar {
+        width: 100%;
+        min-width: 100%;
+        padding: 20px 0 10px;
+        position: relative;
+    }
+
+    .cliff-logo {
+        padding: 0 20px 15px;
+        margin-bottom: 10px;
+    }
+
+    .cliff-steps-nav {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 15px;
+        gap: 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .cliff-steps-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .cliff-nav-item {
+        padding: 8px 14px;
+        white-space: nowrap;
+        min-width: auto;
+    }
+
+    .cliff-nav-label {
+        font-size: 11px;
+    }
+
+    .cliff-nav-number {
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        font-size: 11px;
+        margin-right: 6px;
+    }
+
+    .cliff-nav-check {
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        font-size: 11px;
+        margin-right: 6px;
+    }
+
+    .cliff-content {
+        padding: 24px 20px;
+    }
+
+    .cliff-title {
+        font-size: 22px;
+        letter-spacing: 3px;
+    }
+
+    .cliff-cards-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cliff-cards-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .cliff-card-img {
+        height: 140px;
+    }
+
+    .cliff-card-img-tall {
+        height: 180px;
+    }
+
+    .cliff-step-layout.has-hero {
+        flex-direction: column;
+    }
+
+    .cliff-step-hero {
+        width: 100%;
+        min-width: 100%;
+        max-height: 250px;
+        overflow: hidden;
+    }
+
+    .cliff-fields-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .cliff-upload-row {
+        flex-direction: column;
+    }
+
+    .cliff-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cliff-btn-group {
+        flex-direction: column;
+    }
+
+    .cliff-btn-option-label {
+        display: block;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .cliff-cards-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .cliff-step h2 {
+        font-size: 20px;
+    }
+
+    .cliff-content {
+        padding: 20px 16px;
+    }
+}
+
+/* =============================================
+   Progress bar (top of content on mobile)
+   ============================================= */
+
+.cliff-progress {
+    display: none;
+    height: 3px;
+    background: var(--cliff-gray-200);
+    margin-bottom: 20px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.cliff-progress-bar {
+    height: 100%;
+    background: var(--cliff-dark);
+    transition: width 0.5s ease;
+    border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+    .cliff-progress {
+        display: block;
+    }
+}
