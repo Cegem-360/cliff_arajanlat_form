@@ -110,14 +110,22 @@
     border-color: var(--cliff-primary);
 }
 
-.cliff-nav-item.is-completed {
-    opacity: 0.8;
+.cliff-nav-item.is-completed,
+.cliff-nav-item.is-completed.is-unlocked {
+    opacity: 1;
     cursor: pointer;
 }
 
+.cliff-nav-item.is-completed .cliff-nav-label {
+    opacity: 0.85;
+}
+
 .cliff-nav-item.is-completed:hover {
-    opacity: 1;
     background: rgba(255, 255, 255, 0.05);
+}
+
+.cliff-nav-item.is-completed:hover .cliff-nav-label {
+    opacity: 1;
 }
 
 .cliff-nav-item.is-completed .cliff-nav-number {
@@ -165,11 +173,18 @@
     min-width: 28px;
     border-radius: 50%;
     background: var(--cliff-success);
-    color: var(--cliff-white);
     align-items: center;
     justify-content: center;
-    font-size: 14px;
     margin-right: 12px;
+}
+
+.cliff-nav-check svg {
+    display: block;
+}
+
+.cliff-nav-check svg path {
+    fill: none !important;
+    stroke: #fff !important;
 }
 
 /* =============================================
@@ -539,61 +554,60 @@
 .cliff-appliance-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 20px;
     margin-bottom: 30px;
 }
 
 .cliff-appliance-card {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    padding: 24px;
-    background-color: var(--cliff-gray-200);
-    background-size: cover;
-    background-position: center;
+    border: 2px solid var(--cliff-gray-200);
+    border-radius: var(--cliff-radius-lg);
     overflow: hidden;
+    background: var(--cliff-white);
+    transition: all var(--cliff-transition);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+}
+
+.cliff-appliance-card:hover {
+    border-color: var(--cliff-gray-300);
+    box-shadow: var(--cliff-shadow-hover);
+    transform: translateY(-3px);
+}
+
+.cliff-appliance-card-img {
+    width: 100%;
+    height: 180px;
+    background-color: var(--cliff-gray-100);
+    background-size: cover;
+    background-position: center;
+}
+
+.cliff-appliance-card-body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .cliff-appliance-card-title {
     margin: 0;
-    padding: 10px 22px;
-    background: var(--cliff-dark);
-    color: var(--cliff-white);
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: var(--cliff-dark);
 }
 
 .cliff-appliance-card-btns {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .cliff-appliance-card-btns .cliff-btn-option-label {
-    background: rgba(0, 0, 0, 0.35);
-    border-color: rgba(255, 255, 255, 0.95);
-    color: var(--cliff-white);
-    padding: 10px 22px;
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-.cliff-appliance-card-btns .cliff-btn-option:hover .cliff-btn-option-label {
-    background: rgba(0, 0, 0, 0.55);
-    border-color: var(--cliff-white);
-}
-
-.cliff-appliance-card-btns .cliff-btn-option input:checked ~ .cliff-btn-option-label {
-    background: var(--cliff-white);
-    color: var(--cliff-dark);
-    border-color: var(--cliff-white);
+    padding: 8px 16px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
 }
 
 /* =============================================
@@ -1018,17 +1032,7 @@
     }
 
     .cliff-appliance-card-btns {
-        width: 100%;
-    }
-
-    .cliff-appliance-card-btns .cliff-btn-option {
-        width: auto;
-    }
-
-    .cliff-appliance-card-btns .cliff-btn-option-label {
-        display: inline-block;
-        width: auto;
-        text-align: left;
+        flex-direction: row;
     }
 }
 

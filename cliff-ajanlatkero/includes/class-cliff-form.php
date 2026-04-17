@@ -245,7 +245,7 @@ class Cliff_Form
                     <?php foreach ($nav_labels as $i => $label): ?>
                         <li class="cliff-nav-item<?php echo $i === 0 ? ' is-active' : ''; ?>" data-step="<?php echo $i; ?>">
                             <span class="cliff-nav-number"><?php echo $i + 1; ?></span>
-                            <span class="cliff-nav-check">&#10003;</span>
+                            <span class="cliff-nav-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M5 12.5 10 17.5 19 7.5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                             <span class="cliff-nav-label"><?php echo esc_html($label); ?></span>
                         </li>
                     <?php endforeach; ?>
@@ -379,17 +379,20 @@ class Cliff_Form
                 <?php foreach ($groups as $groupKey => $g):
                     $options = self::get_options($groupKey);
                     $bg = cliff_img("s5_{$groupKey}");
-                    $style = $bg ? 'background-image:url(' . esc_url($bg) . ');' : '';
+                    $imgStyle = $bg ? 'background-image:url(' . esc_url($bg) . ');' : '';
                     ?>
-                    <div class="cliff-appliance-card" style="<?php echo esc_attr($style); ?>">
-                        <h3 class="cliff-appliance-card-title"><?php echo esc_html(cliff_text($g['title_key'])); ?></h3>
-                        <div class="cliff-appliance-card-btns">
-                            <?php foreach ($options as $opt): ?>
-                                <label class="cliff-btn-option">
-                                    <input type="radio" name="<?php echo esc_attr($g['field']); ?>" value="<?php echo esc_attr($opt['key']); ?>">
-                                    <span class="cliff-btn-option-label"><?php echo esc_html($opt['label']); ?></span>
-                                </label>
-                            <?php endforeach; ?>
+                    <div class="cliff-appliance-card">
+                        <div class="cliff-appliance-card-img" style="<?php echo esc_attr($imgStyle); ?>"></div>
+                        <div class="cliff-appliance-card-body">
+                            <h3 class="cliff-appliance-card-title"><?php echo esc_html(cliff_text($g['title_key'])); ?></h3>
+                            <div class="cliff-appliance-card-btns">
+                                <?php foreach ($options as $opt): ?>
+                                    <label class="cliff-btn-option">
+                                        <input type="radio" name="<?php echo esc_attr($g['field']); ?>" value="<?php echo esc_attr($opt['key']); ?>">
+                                        <span class="cliff-btn-option-label"><?php echo esc_html($opt['label']); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
