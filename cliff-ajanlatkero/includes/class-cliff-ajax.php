@@ -112,34 +112,29 @@ class Cliff_Ajax
             'marketing'         => 'Marketing hozzájárulás',
         ];
 
-        $body = "<html><body>";
-        $body .= "<h2 style='color:#1a1a1a;'>Új Cliff Online Ajánlatkérés</h2>";
-        $body .= "<table style='border-collapse:collapse;width:100%;max-width:600px;'>";
-
-        $body .= "<tr><td style='padding:10px 15px;border-bottom:1px solid #eee;font-weight:bold;width:200px;color:#333;'>E-mail</td>";
-        $body .= "<td style='padding:10px 15px;border-bottom:1px solid #eee;color:#555;'>" . esc_html($email) . "</td></tr>";
-
+        $rows = [['E-mail', esc_html($email)]];
         foreach ($form_data as $key => $value) {
-            $label = $label_map[$key] ?? ucfirst(str_replace(['_', '-'], ' ', $key));
-            if (empty($value)) {
+            if ($value === '' || $value === null) {
                 continue;
             }
-            $body .= "<tr><td style='padding:10px 15px;border-bottom:1px solid #eee;font-weight:bold;color:#333;'>" . esc_html($label) . "</td>";
-            $body .= "<td style='padding:10px 15px;border-bottom:1px solid #eee;color:#555;'>" . esc_html($value) . "</td></tr>";
+            $label = $label_map[$key] ?? ucfirst(str_replace(['_', '-'], ' ', $key));
+            $rows[] = [$label, esc_html($value)];
         }
-
         if ($alaprajz_url) {
-            $body .= "<tr><td style='padding:10px 15px;border-bottom:1px solid #eee;font-weight:bold;color:#333;'>Alaprajz</td>";
-            $body .= "<td style='padding:10px 15px;border-bottom:1px solid #eee;'><a href='" . esc_url($alaprajz_url) . "'>Megtekintés</a></td></tr>";
+            $rows[] = ['Alaprajz', "<a href='" . esc_url($alaprajz_url) . "' style='color:#c8102e;text-decoration:none;font-weight:500;border-bottom:1px solid #c8102e;'>Megtekintés</a>"];
         }
         if ($foto_url) {
-            $body .= "<tr><td style='padding:10px 15px;border-bottom:1px solid #eee;font-weight:bold;color:#333;'>Fotó/Skicc</td>";
-            $body .= "<td style='padding:10px 15px;border-bottom:1px solid #eee;'><a href='" . esc_url($foto_url) . "'>Megtekintés</a></td></tr>";
+            $rows[] = ['Fotó / Skicc', "<a href='" . esc_url($foto_url) . "' style='color:#c8102e;text-decoration:none;font-weight:500;border-bottom:1px solid #c8102e;'>Megtekintés</a>"];
         }
 
-        $body .= "</table>";
-        $body .= "<p style='color:#888;font-size:12px;margin-top:20px;'>Beérkezett: " . current_time('Y-m-d H:i:s') . "</p>";
-        $body .= "</body></html>";
+        $data_table = self::render_data_table($rows);
+
+        $admin_body = self::render_email_shell(
+            'Új Cliff Online Ajánlatkérés',
+            'Új ajánlatkérés érkezett az online űrlapon keresztül.',
+            $data_table,
+            'Beérkezett: ' . current_time('Y-m-d H:i:s')
+        );
 
         $headers = [
             'Content-Type: text/html; charset=UTF-8',
@@ -147,21 +142,67 @@ class Cliff_Ajax
             'Reply-To: ' . $email,
         ];
 
-        wp_mail($to, $subject, $body, $headers);
+        wp_mail($to, $subject, $admin_body, $headers);
 
         // Confirmation to customer
         $cc_subject = 'Cliff Konyhák - Ajánlatkérés visszaigazolás';
-        $cc_body = "<html><body>";
-        $cc_body .= "<h2 style='color:#1a1a1a;'>" . esc_html(cliff_text('s8_title')) . "</h2>";
-        $cc_body .= "<p>Tisztelt Ügyfelünk!</p>";
-        $cc_body .= "<p>" . esc_html(cliff_text('s8_body')) . "</p>";
-        $cc_body .= "<p>Üdvözlettel,<br><strong>Cliff Konyhák</strong></p>";
-        $cc_body .= "<p style='color:#888;font-size:12px;'>Telefon: " . esc_html(cliff_text('s8_telefon')) . " | E-mail: " . esc_html(cliff_text('s8_email')) . "</p>";
-        $cc_body .= "</body></html>";
+        $intro = '<p style="margin:0 0 12px;color:#1a1a1a;font-size:16px;">Tisztelt Ügyfelünk!</p>'
+            . '<p style="margin:0 0 8px;color:#444;font-size:15px;line-height:1.6;">' . esc_html(cliff_text('s8_body')) . '</p>'
+            . '<p style="margin:24px 0 8px;color:#1a1a1a;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Az Ön által megadott adatok</p>';
+
+        $footer = 'Üdvözlettel,&nbsp;<strong style="color:#1a1a1a;">Cliff Konyhák</strong>'
+            . '<br><span style="color:#888;">Telefon: ' . esc_html(cliff_text('s8_telefon')) . ' &nbsp;·&nbsp; E-mail: ' . esc_html(cliff_text('s8_email')) . '</span>';
+
+        $cc_body = self::render_email_shell(
+            esc_html(cliff_text('s8_title')),
+            $intro,
+            $data_table,
+            $footer
+        );
 
         wp_mail($email, $cc_subject, $cc_body, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Cliff Konyhák <' . get_option('admin_email') . '>',
         ]);
+    }
+
+    private static function render_data_table(array $rows): string
+    {
+        $html = "<table role='presentation' cellpadding='0' cellspacing='0' border='0' style='border-collapse:separate;border-spacing:0;width:100%;background:#ffffff;border:1px solid #ececec;border-radius:8px;overflow:hidden;'>";
+        $total = count($rows);
+        foreach ($rows as $i => [$label, $value]) {
+            $is_last = $i === $total - 1;
+            $bg = $i % 2 === 0 ? '#ffffff' : '#fafafa';
+            $border = $is_last ? 'none' : '1px solid #f0f0f0';
+            $html .= "<tr>"
+                . "<td style='padding:14px 20px;background:{$bg};border-bottom:{$border};width:40%;vertical-align:top;color:#888;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,sans-serif;'>"
+                . esc_html($label)
+                . "</td>"
+                . "<td style='padding:14px 20px;background:{$bg};border-bottom:{$border};color:#1a1a1a;font-size:15px;line-height:1.5;font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,sans-serif;'>"
+                . $value
+                . "</td>"
+                . "</tr>";
+        }
+        $html .= "</table>";
+        return $html;
+    }
+
+    private static function render_email_shell(string $title, string $intro, string $content, string $footer): string
+    {
+        return '<!DOCTYPE html><html lang="hu"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . $title . '</title></head>'
+            . '<body style="margin:0;padding:0;background:#f4f4f4;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,\'Helvetica Neue\',Arial,sans-serif;-webkit-font-smoothing:antialiased;">'
+            . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f4f4f4;">'
+            . '<tr><td align="center" style="padding:32px 16px;">'
+            . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04);overflow:hidden;">'
+            . '<tr><td style="height:4px;background:#c8102e;line-height:4px;font-size:0;">&nbsp;</td></tr>'
+            . '<tr><td style="padding:36px 36px 20px;">'
+            . '<h1 style="margin:0 0 20px;color:#1a1a1a;font-size:22px;font-weight:700;letter-spacing:-0.01em;line-height:1.3;">' . $title . '</h1>'
+            . $intro
+            . '</td></tr>'
+            . '<tr><td style="padding:0 36px 32px;">' . $content . '</td></tr>'
+            . '<tr><td style="padding:24px 36px 32px;border-top:1px solid #f0f0f0;background:#fafafa;color:#888;font-size:13px;line-height:1.6;">' . $footer . '</td></tr>'
+            . '</table>'
+            . '<p style="margin:16px 0 0;color:#aaa;font-size:11px;">© ' . date('Y') . ' Cliff Konyhák</p>'
+            . '</td></tr></table></body></html>';
     }
 }
