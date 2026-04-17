@@ -533,26 +533,67 @@
 }
 
 /* =============================================
-   Appliance Groups
+   Appliance Card Grid (Step 5)
    ============================================= */
 
-.cliff-appliance-group {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--cliff-gray-200);
+.cliff-appliance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
-.cliff-appliance-group:last-of-type {
-    border-bottom: none;
+.cliff-appliance-card {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    padding: 24px;
+    background-color: var(--cliff-gray-200);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.cliff-appliance-title {
-    font-size: 16px;
+.cliff-appliance-card-title {
+    margin: 0;
+    padding: 10px 22px;
+    background: var(--cliff-dark);
+    color: var(--cliff-white);
+    font-size: 14px;
     font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--cliff-dark);
+    letter-spacing: 3px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+}
+
+.cliff-appliance-card-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 100%;
+}
+
+.cliff-appliance-card-btns .cliff-btn-option-label {
+    background: rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.95);
+    color: var(--cliff-white);
+    padding: 10px 22px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.cliff-appliance-card-btns .cliff-btn-option:hover .cliff-btn-option-label {
+    background: rgba(0, 0, 0, 0.55);
+    border-color: var(--cliff-white);
+}
+
+.cliff-appliance-card-btns .cliff-btn-option input:checked ~ .cliff-btn-option-label {
+    background: var(--cliff-white);
+    color: var(--cliff-dark);
+    border-color: var(--cliff-white);
 }
 
 /* =============================================
@@ -970,6 +1011,24 @@
     .cliff-btn-option-label {
         display: block;
         text-align: center;
+    }
+
+    .cliff-appliance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cliff-appliance-card-btns {
+        width: 100%;
+    }
+
+    .cliff-appliance-card-btns .cliff-btn-option {
+        width: auto;
+    }
+
+    .cliff-appliance-card-btns .cliff-btn-option-label {
+        display: inline-block;
+        width: auto;
+        text-align: left;
     }
 }
 

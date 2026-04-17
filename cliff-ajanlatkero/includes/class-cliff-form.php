@@ -207,6 +207,11 @@ class Cliff_Form
 
             // Image keys (img_ prefix)
             'img_s0_hero' => '',
+            'img_s5_suto'        => 'https://www.cliffkonyhabutor.hu/wp-content/uploads/2026/04/cliff-s5-suto.webp',
+            'img_s5_huto'        => 'https://www.cliffkonyhabutor.hu/wp-content/uploads/2026/04/cliff-s5-huto.webp',
+            'img_s5_elszivo'     => 'https://www.cliffkonyhabutor.hu/wp-content/uploads/2026/04/cliff-s5-elszivo.webp',
+            'img_s5_fozofelulet' => 'https://www.cliffkonyhabutor.hu/wp-content/uploads/2026/04/cliff-s5-fozofelulet.webp',
+            'img_s5_mosogatogep' => 'https://www.cliffkonyhabutor.hu/wp-content/uploads/2026/04/cliff-s5-mosogatogep.webp',
             'img_s7_hero' => '',
             'img_s8_hero' => '',
         ];
@@ -240,8 +245,8 @@ class Cliff_Form
                     <?php foreach ($nav_labels as $i => $label): ?>
                         <li class="cliff-nav-item<?php echo $i === 0 ? ' is-active' : ''; ?>" data-step="<?php echo $i; ?>">
                             <span class="cliff-nav-number"><?php echo $i + 1; ?></span>
-                            <span class="cliff-nav-label"><?php echo esc_html($label); ?></span>
                             <span class="cliff-nav-check">&#10003;</span>
+                            <span class="cliff-nav-label"><?php echo esc_html($label); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -370,21 +375,25 @@ class Cliff_Form
             <h2><?php echo esc_html(cliff_text('s5_title')); ?></h2>
             <p class="cliff-step-desc"><?php echo wp_kses_post(cliff_text('s5_desc')); ?></p>
 
-            <?php foreach ($groups as $groupKey => $g):
-                $options = self::get_options($groupKey);
-                ?>
-                <div class="cliff-appliance-group">
-                    <h3 class="cliff-appliance-title"><?php echo esc_html(cliff_text($g['title_key'])); ?></h3>
-                    <div class="cliff-btn-group">
-                        <?php foreach ($options as $opt): ?>
-                            <label class="cliff-btn-option">
-                                <input type="radio" name="<?php echo esc_attr($g['field']); ?>" value="<?php echo esc_attr($opt['key']); ?>">
-                                <span class="cliff-btn-option-label"><?php echo esc_html($opt['label']); ?></span>
-                            </label>
-                        <?php endforeach; ?>
+            <div class="cliff-appliance-grid">
+                <?php foreach ($groups as $groupKey => $g):
+                    $options = self::get_options($groupKey);
+                    $bg = cliff_img("s5_{$groupKey}");
+                    $style = $bg ? 'background-image:url(' . esc_url($bg) . ');' : '';
+                    ?>
+                    <div class="cliff-appliance-card" style="<?php echo esc_attr($style); ?>">
+                        <h3 class="cliff-appliance-card-title"><?php echo esc_html(cliff_text($g['title_key'])); ?></h3>
+                        <div class="cliff-appliance-card-btns">
+                            <?php foreach ($options as $opt): ?>
+                                <label class="cliff-btn-option">
+                                    <input type="radio" name="<?php echo esc_attr($g['field']); ?>" value="<?php echo esc_attr($opt['key']); ?>">
+                                    <span class="cliff-btn-option-label"><?php echo esc_html($opt['label']); ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
 
             <button type="button" class="cliff-btn cliff-btn-next cliff-btn-manual" data-next="6">
                 <?php echo esc_html(cliff_text('s5_button')); ?>

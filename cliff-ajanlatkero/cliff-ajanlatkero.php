@@ -3,7 +3,7 @@
  * Plugin Name: Cliff Ajánlatkérő Form
  * Plugin URI: https://cliffkonyhabutor.hu
  * Description: Online ajánlatkérő wizard form a Cliff Konyhák számára. Használat: [cliff_ajanlatkero] shortcode.
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: Cliff Konyhák
  * Text Domain: cliff-ajanlatkero
  * Requires at least: 5.8
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CLIFF_FORM_VERSION', '2.0.1');
+define('CLIFF_FORM_VERSION', '2.0.2');
 define('CLIFF_FORM_PATH', plugin_dir_path(__FILE__));
 define('CLIFF_FORM_URL', plugin_dir_url(__FILE__));
 
